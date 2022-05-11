@@ -1,0 +1,56 @@
+@import "../../../main.scss";
+
+.modal-box {
+  min-height: 100px;
+  width: 100%;
+  max-width: 480px;
+  background: $light;
+  border-radius: 4px;
+  padding: 35px;
+}
+
+.field {
+  display: block;
+  align-items: center;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.control {
+  margin: 5px;
+  display: flex;
+}
+
+.is-expanded {
+  max-width: 100%;
+}
+
+.input {
+  font-size: 16px;
+  width: 100%;
+  padding: 8px 15px;
+  height: 30px;
+  border: none;
+  transition: all 0.2s ease;
+
+  &:focus + .contorl span {
+    outline: none;
+    border: 2px solid $dark;
+    border-radius: 4px;
+  }
+}
+
+.control span {
+  width: 0;
+  transition: all 0.5s ease;
+}
+
+.group-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
+
+
