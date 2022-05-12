@@ -1,3 +1,4 @@
+import { HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { WebRequestService } from "./web-request.service";
 
@@ -6,6 +7,14 @@ import { WebRequestService } from "./web-request.service";
 })
 export class TaskService {
   constructor(private webRequest: WebRequestService) {}
+
+  userRegister(user: Object){
+    return this.webRequest.post('users', user);
+  }
+
+  userLogin(user:Object){
+    return this.webRequest.post('users/login', user)
+  }
 
   createList(title: string) {
     return this.webRequest.post("lists", { title });
@@ -35,11 +44,11 @@ export class TaskService {
     return this.webRequest.patch(`lists/${listId}/tasks/${id}`, { isComplete });
   }
 
-  removeList(listId: string){
+  removeList(listId: string) {
     return this.webRequest.delete(`lists/${listId}`);
   }
 
-  removeTask(listId: string, id: string){
+  removeTask(listId: string, id: string) {
     return this.webRequest.delete(`lists/${listId}/tasks/${id}`);
   }
 }

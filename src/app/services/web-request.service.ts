@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,9 +11,10 @@ export class WebRequestService {
   constructor(
     private http: HttpClient
   ) { }
-
   get(uri: string){
-    return this.http.get(`${this.ROOT_URL}/${uri}`);
+    let token = localStorage.getItem("token");
+    let headers  = new HttpHeaders().set("Authorization", `Bearer ${token}`)
+    return this.http.get(`${this.ROOT_URL}/${uri}`, { headers });
   }
 
   post(uri: string, payload: Object){
