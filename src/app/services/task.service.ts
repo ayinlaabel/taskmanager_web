@@ -8,12 +8,12 @@ import { WebRequestService } from "./web-request.service";
 export class TaskService {
   constructor(private webRequest: WebRequestService) {}
 
-  userRegister(user: Object){
-    return this.webRequest.post('users', user);
+  userRegister(user: Object) {
+    return this.webRequest.post("users", user);
   }
 
-  userLogin(user:Object){
-    return this.webRequest.post('users/login', user)
+  userLogin(user: Object) {
+    return this.webRequest.post("users/login", user);
   }
 
   createList(title: string) {
@@ -50,5 +50,9 @@ export class TaskService {
 
   removeTask(listId: string, id: string) {
     return this.webRequest.delete(`lists/${listId}/tasks/${id}`);
+  }
+
+  logout(){
+    return this.webRequest
   }
 }

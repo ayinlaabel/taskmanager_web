@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/services/auth.service";
 import { TaskService } from "src/app/services/task.service";
 
 @Component({
@@ -21,19 +22,23 @@ export class TaskViewComponent implements OnInit {
     private taskService: TaskService,
     private route: ActivatedRoute,
     private router: Router,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.taskService.getTask(params.listId).subscribe((tasks) => {
-        this.tasks = tasks;
-        this.listId = params.listId;
-      });
+      if(params.listId){
+        this.taskService.getTask(params.listId).subscribe((tasks) => {
+          this.tasks = tasks;
+          this.listId = params.listId;
+        });
+      }
     });
 
     this.taskService.getList().subscribe((lists) => {
       this.lists = lists;
+      console.log(lists)
     });
   }
 
@@ -45,7 +50,6 @@ export class TaskViewComponent implements OnInit {
       this.taskService
         .completeTask(this.listId, id, !isComplete)
         .subscribe((task) => {
-          console.log(task);
           this.ngOnInit();
           if(task['isComplete'] == true){
             this.toast.warning("The task has been set to uncompleted.");
@@ -105,5 +109,9 @@ export class TaskViewComponent implements OnInit {
     document.querySelector(".drop__down-item").classList.remove("show");
     document.querySelector(".drop__down-overlay").classList.remove("show");
     this.show = false;
+  }
+
+  logout(){
+    this.auth.logout();
   }
 }

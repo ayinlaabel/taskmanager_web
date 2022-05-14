@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
         }
         
         if(user['token']){
-          localStorage.setItem('token', user['token'])
+          localStorage.setItem('x-access-token', user['token'])
           this.router.navigate(['/lists'])
           console.log(user)
         }
