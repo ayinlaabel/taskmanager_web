@@ -13,6 +13,8 @@ import { RegisterComponent } from "./pages/user/register/register.component";
 import { LoginComponent } from "./pages/user/login/login.component";
 import { FormsModule } from "@angular/forms";
 import { WebReqInterceptor } from "./interceptor/web-req.interceptor";
+import { ServiceWorkerModule, SwRegistrationOptions } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -32,10 +34,15 @@ import { WebReqInterceptor } from "./interceptor/web-req.interceptor";
     ToastrModule.forRoot({
       preventDuplicates: true,
     }),
+    ServiceWorkerModule.register('ngsw-worker.js'),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: WebReqInterceptor, multi: true
+    },
+    {
+      provide: SwRegistrationOptions,
+      useFactory: () => ({ enabled: environment.production }),
     }
   ],
   bootstrap: [AppComponent],

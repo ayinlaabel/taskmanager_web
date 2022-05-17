@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
   login(){
     this.taskService.userLogin(this.model).subscribe(
       user => {
-
         if(user['message']){
           this.toast.error(user['message'])
           this.model.password = ''

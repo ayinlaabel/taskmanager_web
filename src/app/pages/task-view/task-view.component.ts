@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { SwPush } from "@angular/service-worker";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
 import { TaskService } from "src/app/services/task.service";
@@ -18,17 +19,22 @@ export class TaskViewComponent implements OnInit {
 
   isComplete: boolean;
 
+  private readonly publicKey =
+    "BJ7LRDAPf5UTP5x_HfdZlYYdSh1NbpTxIwBjPSe5k_11Zz9KVfkU6-5nG_AZm0I2BRqnHnAfqckJnitw2QUtmiw";
+
   constructor(
     private taskService: TaskService,
     private route: ActivatedRoute,
     private router: Router,
     private toast: ToastrService,
-    private auth: AuthService
+    private auth: AuthService,
+    private swPush: SwPush
   ) {}
 
   ngOnInit() {
+        
     this.route.params.subscribe((params) => {
-      if(params.listId){
+      if (params.listId) {
         this.taskService.getTask(params.listId).subscribe((tasks) => {
           this.tasks = tasks;
           this.listId = params.listId;
@@ -38,7 +44,7 @@ export class TaskViewComponent implements OnInit {
 
     this.taskService.getList().subscribe((lists) => {
       this.lists = lists;
-      console.log(lists)
+      console.log(lists);
     });
   }
 
@@ -47,16 +53,16 @@ export class TaskViewComponent implements OnInit {
   }
 
   completeTask(id: string, isComplete: any) {
-      this.taskService
-        .completeTask(this.listId, id, !isComplete)
-        .subscribe((task) => {
-          this.ngOnInit();
-          if(task['isComplete'] == true){
-            this.toast.warning("The task has been set to uncompleted.");
-          }else{
-            this.toast.success("You have successfully complete this task.");
-          }
-        });
+    this.taskService
+      .completeTask(this.listId, id, !isComplete)
+      .subscribe((task) => {
+        this.ngOnInit();
+        if (task["isComplete"] == true) {
+          this.toast.warning("The task has been set to uncompleted.");
+        } else {
+          this.toast.success("You have successfully complete this task.");
+        }
+      });
   }
 
   editTask(id: string) {
@@ -70,7 +76,6 @@ export class TaskViewComponent implements OnInit {
       console.log(task);
       this.ngOnInit();
       this.toast.success("You have successfully remove the task.");
-
     });
   }
 
@@ -81,7 +86,7 @@ export class TaskViewComponent implements OnInit {
     this.taskService.removeList(this.listId).subscribe((list) => {
       console.log(list);
       this.ngOnInit();
-      this.router.navigate([".."]);
+      this.router.navigate(["/lists"]);
       document.querySelector(".drop__down").classList.remove("show");
       document.querySelector(".drop__down-item").classList.remove("show");
       document.querySelector(".drop__down-overlay").classList.remove("show");
@@ -111,7 +116,14 @@ export class TaskViewComponent implements OnInit {
     this.show = false;
   }
 
-  logout(){
+  logout() {
     this.auth.logout();
+  }
+
+  pushNotification(){
+    console.log('Registering service worker...');
+
+    const register = navigator.serviceWorker.register('assets/ngsw-worker.js');
+    console.log(register);
   }
 }

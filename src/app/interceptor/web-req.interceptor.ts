@@ -41,10 +41,10 @@ export class WebReqInterceptor implements HttpInterceptor {
           this.toastr.error(msg);
           this.authService.logout();
         }
-        
+
         if (error.status === 403) {
-            this.toastr.error(err.error.message);
-            this.authService.logout();
+          this.toastr.error(err.error);
+          this.authService.logout();
         }
 
         //Getting Unauthorized Access
