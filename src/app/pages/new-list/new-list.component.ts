@@ -23,14 +23,21 @@ export class NewListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      if (params.listId) {
-        this.title = "Create a new task";
-        this.listId = params.listId;
-      } else {
-        this.title = "Create a new list";
-      }
-    });
+    console.log(this.isLoggedIn)
+    if(this.isLoggedIn == null){
+      this.router.navigate(['/login']);
+      this.toast.error('You need to be logged in, login and try again.')
+      
+    }else{
+      this.route.params.subscribe((params) => {
+        if (params.listId) {
+          this.title = "Create a new task";
+          this.listId = params.listId;
+        } else {
+          this.title = "Create a new list";
+        }
+      });
+    }
   }
 
   createList(title: string) {
