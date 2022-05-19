@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div class="centered-content">
+  <div class="login__container">
+    <h1 class="title">Login</h1>
+    <div class="form">
+      <div class="email">
+        <input type="text" [(ngModel)]="model.email" placeholder="johndoe@example.com"/>
+      </div>
+      <div class="password">
+        <input type="password" [(ngModel)]="model.password" placeholder="* * * * * *"/>
+      </div>
+      <div class="remember">
+          <input type="checkbox">
+          Remember me
+      </div>
+      <button class="button is-primary is-medium" (click)="login()">Login</button>
+      <div class="forget">
+          <p>Forget <a href="">password?</a></p>
+      </div>
+    </div>
+    <div class="signup">
+        <div class="header">
+            <div class="empty"></div>
+            <div class="text">Register</div>
+            <div class="empty"></div>
+        </div>
+        <div class="account">
+            <p>Don't have an <a routerLink="/register">account?</a></p>
+        </div>
+    </div>
+  </div>
+</div>

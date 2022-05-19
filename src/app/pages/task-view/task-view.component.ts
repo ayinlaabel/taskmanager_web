@@ -1,7 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { SwPush } from "@angular/service-worker";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "src/app/services/auth.service";
 import { TaskService } from "src/app/services/task.service";
+
+import { v1 as uuid } from 'uuid';
 
 @Component({
   selector: "app-task-view",
@@ -17,24 +21,42 @@ export class TaskViewComponent implements OnInit {
 
   isComplete: boolean;
 
+  private readonly publicKey =
+    "BJ7LRDAPf5UTP5x_HfdZlYYdSh1NbpTxIwBjPSe5k_11Zz9KVfkU6-5nG_AZm0I2BRqnHnAfqckJnitw2QUtmiw";
+
   constructor(
     private taskService: TaskService,
     private route: ActivatedRoute,
     private router: Router,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private auth: AuthService,
+    private swPush: SwPush
   ) {}
 
   ngOnInit() {
+
+    let isLoggedIn = localStorage.getItem('isLoggedIn')
+    console.log(isLoggedIn);
+    if(isLoggedIn !== null){
+
+    }else{
+      this.router.navigate(['/login'])
+      this.toast.error('You are required to login')
+    }
+        
     this.route.params.subscribe((params) => {
-      this.taskService.getTask(params.listId).subscribe((tasks) => {
-        this.tasks = tasks;
-        this.listId = params.listId;
-      });
+      if (params.listId) {
+        // this.taskService.getTask(params.listId).subscribe((tasks) => {
+        //   this.tasks = tasks;
+        //   this.listId = params.listId;
+        // });
+      }
     });
 
-    this.taskService.getList().subscribe((lists) => {
-      this.lists = lists;
-    });
+    // this.taskService.getList().subscribe((lists) => {
+    //   this.lists = lists;
+    //   console.log(lists);
+    // });
   }
 
   newTask() {
@@ -42,17 +64,16 @@ export class TaskViewComponent implements OnInit {
   }
 
   completeTask(id: string, isComplete: any) {
-      this.taskService
-        .completeTask(this.listId, id, !isComplete)
-        .subscribe((task) => {
-          console.log(task);
-          this.ngOnInit();
-          if(task['isComplete'] == true){
-            this.toast.warning("The task has been set to uncompleted.");
-          }else{
-            this.toast.success("You have successfully complete this task.");
-          }
-        });
+    // this.taskService
+    //   .completeTask(this.listId, id, !isComplete)
+    //   .subscribe((task) => {
+    //     this.ngOnInit();
+    //     if (task["isComplete"] == true) {
+    //       this.toast.warning("The task has been set to uncompleted.");
+    //     } else {
+    //       this.toast.success("You have successfully complete this task.");
+    //     }
+    //   });
   }
 
   editTask(id: string) {
@@ -62,28 +83,27 @@ export class TaskViewComponent implements OnInit {
   }
 
   removeTask(id: string) {
-    this.taskService.removeTask(this.listId, id).subscribe((task) => {
-      console.log(task);
-      this.ngOnInit();
-      this.toast.success("You have successfully remove the task.");
-
-    });
+    // this.taskService.removeTask(this.listId, id).subscribe((task) => {
+    //   console.log(task);
+    //   this.ngOnInit();
+    //   this.toast.success("You have successfully remove the task.");
+    // });
   }
 
   removeList() {
     /**
      * @listId - this id is coming from the params
      */
-    this.taskService.removeList(this.listId).subscribe((list) => {
-      console.log(list);
-      this.ngOnInit();
-      this.router.navigate([".."]);
-      document.querySelector(".drop__down").classList.remove("show");
-      document.querySelector(".drop__down-item").classList.remove("show");
-      document.querySelector(".drop__down-overlay").classList.remove("show");
-      this.show = false;
-      this.toast.success("You have successfully remove the list.");
-    });
+    // this.taskService.removeList(this.listId).subscribe((list) => {
+    //   console.log(list);
+    //   this.ngOnInit();
+    //   this.router.navigate(["/lists"]);
+    //   document.querySelector(".drop__down").classList.remove("show");
+    //   document.querySelector(".drop__down-item").classList.remove("show");
+    //   document.querySelector(".drop__down-overlay").classList.remove("show");
+    //   this.show = false;
+    //   this.toast.success("You have successfully remove the list.");
+    // });
   }
 
   showDropDown() {
@@ -105,5 +125,16 @@ export class TaskViewComponent implements OnInit {
     document.querySelector(".drop__down-item").classList.remove("show");
     document.querySelector(".drop__down-overlay").classList.remove("show");
     this.show = false;
+  }
+
+  // logout() {
+  //   this.auth.logout();
+  // }
+
+  pushNotification(){
+    console.log('Registering service worker...');
+
+    const register = navigator.serviceWorker.register('assets/ngsw-worker.js');
+    console.log(register);
   }
 }

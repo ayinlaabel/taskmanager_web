@@ -1,0 +1,12 @@
+self.addEventListener("push", (e) => {
+  const data = e["data"].json();
+  console.log("Push Recieved...");
+  navigator.serviceWorker.ready.then((resgistration) => {
+    resgistration.showNotification(data.title, {
+      body: "Testing Nofication",
+      icon: "http://image.ibb.co/frY0Fd/tmlogo.png",
+      vibrate: [200, 100, 200, 100, 200, 100, 200],
+      tag: "vibration-sample",
+    });
+  });
+});

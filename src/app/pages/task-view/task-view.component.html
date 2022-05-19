@@ -10,7 +10,11 @@
         <a class="list__menu-item">
           <p>List #1</p>
         </a>
-        <a class="list__menu-item" *ngFor="let list of lists" [routerLink]="['/lists', list._id]">
+        <a
+          class="list__menu-item"
+          *ngFor="let list of lists"
+          [routerLink]="['/lists', list._id]"
+        >
           <p>{{ list.title }}</p>
         </a>
       </div>
@@ -23,26 +27,46 @@
     <div class="task__list">
       <div class="task__list-header">
         <h1 class="title">Tasks</h1>
-        <div class="settings" *ngIf="listId">
-          <a class="setting__icon" (click)="showDropDown()"><i class="fas fa-cog"></i></a>
+        <div class="settings">
+          <a class="setting__icon" (click)="showDropDown()"
+            ><i class="fas fa-cog"></i
+          ></a>
           <div class="drop__down">
-            <a class="drop__down-item">Edit List</a>
-            <a class="drop__down-item text-danger" (click)="removeList()">Delete List</a>
+            <div class="drop__down-list" *ngIf="listId">
+              <a class="drop__down-item">Edit List</a>
+              <a class="drop__down-item text-danger" (click)="removeList()">
+                Delete List
+              </a>
+            </div>
+            <a class="drop__down-item" (click)="logout()">Logout</a>
           </div>
         </div>
       </div>
-      
-      
+
       <!-- Task Elements Here -->
-      <div class="task" *ngFor="let task of tasks" [ngClass]="task.isComplete ? 'is-complete' : '' " (click)="completeTask(task._id, task.isComplete)">
+      <div
+        class="task"
+        *ngFor="let task of tasks"
+        [ngClass]="task.isComplete ? 'is-complete' : ''"
+        (click)="completeTask(task._id, task.isComplete)"
+      >
         <p>{{ task.title }}</p>
         <p class="icon-button-group">
-          <a class="icon-button is-default" (click)="editTask(task._id)"><i class="fas fa-pen"></i></a>
-          <a class="icon-button is-danger" (click)="removeTask(task._id)"><i class="far fa-trash-alt"></i></a>
+          <a class="icon-button is-default" (click)="editTask(task._id)"
+            ><i class="fas fa-pen"></i
+          ></a>
+          <a class="icon-button is-danger" (click)="removeTask(task._id)"
+            ><i class="far fa-trash-alt"></i
+          ></a>
         </p>
       </div>
       <div class="float-bottom" *ngIf="listId">
-        <button class="round-button is-primary is-small icon-medium" (click)="newTask()"><i class="fas fa-plus"></i></button>
+        <button
+          class="round-button is-primary is-small icon-medium"
+          (click)="newTask()"
+        >
+          <i class="fas fa-plus"></i>
+        </button>
       </div>
     </div>
   </div>

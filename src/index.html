@@ -1,14 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Taskmanager</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script src="https://kit.fontawesome.com/e251c6b2e4.js" crossorigin="anonymous"></script>
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Taskmanager</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script
+      src="https://kit.fontawesome.com/e251c6b2e4.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#1976d2" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#1976d2" />
+  </head>
+  <body>
+    <app-root></app-root>
+    <noscript
+      >Please enable JavaScript to continue using this application.</noscript
+    >
+    <script>
+      if ("serviceWorker" in navigator) {
+        push();
+        sub();
+      } else {
+        console.log("Not supported!");
+      }
+      async function push() {
+          let t = await navigator.serviceWorker.register("/assets/worker.js");
+          console.log(t);
+
+        }
+
+       async function sub(){
+          let sw = await navigator.serviceWorker.ready;
+          let push = await sw.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: 'BJ7LRDAPf5UTP5x_HfdZlYYdSh1NbpTxIwBjPSe5k_11Zz9KVfkU6-5nG_AZm0I2BRqnHnAfqckJnitw2QUtmiw'
+          });
+
+          console.log(JSON.stringify(push));
+        }
+    </script>
+  </body>
 </html>

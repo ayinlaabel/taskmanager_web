@@ -27,12 +27,11 @@ export class EditListComponent implements OnInit {
         this.title = "Edit task";
         this.listId = params.listId;
         this.taskId = params.taskId;
-        console.log(params);
-        this.taskService
-          .getTaskById(params.listId, params.taskId)
-          .subscribe((task) => {
-            this.task = task["title"];
-          });
+        // this.taskService
+        //   .getTaskById(params.listId, params.taskId)
+        //   .subscribe((task) => {
+        //     this.task = task["title"];
+        //   });
       } else {
         this.title = "Edit list";
       }
@@ -40,12 +39,12 @@ export class EditListComponent implements OnInit {
   }
 
   editTask(title: string){
-    this.taskService.editTask(this.listId, this.taskId, title).subscribe(
-      task => {
-        console.log(task)
-        this.router.navigate(['..'])
-        this.toast.info("Your chnages has been made.");
-      }
-    )
+    // this.taskService.editTask(this.listId, this.taskId, title).subscribe(
+    //   task => {
+    //     console.log(task)
+    //     this.router.navigate(['/lists/'+this.listId])
+    //     this.toast.info("Your chnages has been made.");
+    //   }
+    // )
   }
 }

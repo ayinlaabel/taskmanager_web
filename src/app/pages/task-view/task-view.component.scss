@@ -159,6 +159,7 @@
     visibility: visible !important;
   }
 
+  &-list &-item,
   &-item{
     cursor: pointer;
     margin-bottom: 5px;
@@ -167,7 +168,6 @@
     &:hover{
       color: $light;
     }
-
   }
 
   &-overlay{

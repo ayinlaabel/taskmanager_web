@@ -1,1 +1,34 @@
-<p>register works!</p>
+<div class="centered-content">
+  <div class="signup__container">
+    <h1 class="title">Register</h1>
+    <div class="form">
+      <div class="email">
+        <input
+          type="text"
+          [(ngModel)]="model.email"
+          placeholder="johndoe@example.com"
+        />
+      </div>
+      <div class="password">
+        <input
+          type="password"
+          [(ngModel)]="model.password"
+          placeholder="* * * * * *"
+        />
+      </div>
+      <button class="button is-primary is-medium" (click)="register()">
+        Register
+      </button>
+    </div>
+    <div class="signup">
+      <div class="header">
+        <div class="empty"></div>
+        <div class="text">Login</div>
+        <div class="empty"></div>
+      </div>
+      <div class="account">
+        <p>Already have an <a routerLink="/login">account?</a></p>
+      </div>
+    </div>
+  </div>
+</div>

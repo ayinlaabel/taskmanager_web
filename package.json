@@ -3,11 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build --prod",
+    "precache": "sw-precache --verbose --config=sw-precache-config.js"
+  },
+  "engines": {
+    "node": "^14.14.6",
+    "npm": "^8.5.5"
   },
   "private": true,
   "dependencies": {
@@ -18,10 +24,15 @@
     "@angular/forms": "~8.2.14",
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
+    "@angular/pwa": "^13.3.5",
     "@angular/router": "~8.2.14",
+    "@angular/service-worker": "~8.2.14",
+    "express": "^4.18.1",
     "ngx-toastr": "^10.2.0",
+    "path": "^0.12.7",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "uuid": "^8.3.2",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
@@ -29,9 +40,9 @@
     "@angular/cli": "~8.3.29",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
