@@ -14,11 +14,11 @@ export class TaskService {
 
   constructor(private webRequest: WebRequestService) {}
 
-  userRegister(user: Object) {
+  userRegister(user: any) {
     return this.webRequest.post("users", user);
   }
 
-  userLogin(user: Object) {
+  userLogin(user: any) {
     return this.webRequest.post("users/login", user);
   }
 

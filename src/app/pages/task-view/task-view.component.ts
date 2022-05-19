@@ -5,6 +5,8 @@ import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
 import { TaskService } from "src/app/services/task.service";
 
+import { v1 as uuid } from 'uuid';
+
 @Component({
   selector: "app-task-view",
   templateUrl: "./task-view.component.html",
@@ -32,20 +34,29 @@ export class TaskViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    let isLoggedIn = localStorage.getItem('isLoggedIn')
+    console.log(isLoggedIn);
+    if(isLoggedIn !== null){
+
+    }else{
+      this.router.navigate(['/login'])
+      this.toast.error('You are required to login')
+    }
         
     this.route.params.subscribe((params) => {
       if (params.listId) {
-        this.taskService.getTask(params.listId).subscribe((tasks) => {
-          this.tasks = tasks;
-          this.listId = params.listId;
-        });
+        // this.taskService.getTask(params.listId).subscribe((tasks) => {
+        //   this.tasks = tasks;
+        //   this.listId = params.listId;
+        // });
       }
     });
 
-    this.taskService.getList().subscribe((lists) => {
-      this.lists = lists;
-      console.log(lists);
-    });
+    // this.taskService.getList().subscribe((lists) => {
+    //   this.lists = lists;
+    //   console.log(lists);
+    // });
   }
 
   newTask() {
@@ -53,16 +64,16 @@ export class TaskViewComponent implements OnInit {
   }
 
   completeTask(id: string, isComplete: any) {
-    this.taskService
-      .completeTask(this.listId, id, !isComplete)
-      .subscribe((task) => {
-        this.ngOnInit();
-        if (task["isComplete"] == true) {
-          this.toast.warning("The task has been set to uncompleted.");
-        } else {
-          this.toast.success("You have successfully complete this task.");
-        }
-      });
+    // this.taskService
+    //   .completeTask(this.listId, id, !isComplete)
+    //   .subscribe((task) => {
+    //     this.ngOnInit();
+    //     if (task["isComplete"] == true) {
+    //       this.toast.warning("The task has been set to uncompleted.");
+    //     } else {
+    //       this.toast.success("You have successfully complete this task.");
+    //     }
+    //   });
   }
 
   editTask(id: string) {
@@ -72,27 +83,27 @@ export class TaskViewComponent implements OnInit {
   }
 
   removeTask(id: string) {
-    this.taskService.removeTask(this.listId, id).subscribe((task) => {
-      console.log(task);
-      this.ngOnInit();
-      this.toast.success("You have successfully remove the task.");
-    });
+    // this.taskService.removeTask(this.listId, id).subscribe((task) => {
+    //   console.log(task);
+    //   this.ngOnInit();
+    //   this.toast.success("You have successfully remove the task.");
+    // });
   }
 
   removeList() {
     /**
      * @listId - this id is coming from the params
      */
-    this.taskService.removeList(this.listId).subscribe((list) => {
-      console.log(list);
-      this.ngOnInit();
-      this.router.navigate(["/lists"]);
-      document.querySelector(".drop__down").classList.remove("show");
-      document.querySelector(".drop__down-item").classList.remove("show");
-      document.querySelector(".drop__down-overlay").classList.remove("show");
-      this.show = false;
-      this.toast.success("You have successfully remove the list.");
-    });
+    // this.taskService.removeList(this.listId).subscribe((list) => {
+    //   console.log(list);
+    //   this.ngOnInit();
+    //   this.router.navigate(["/lists"]);
+    //   document.querySelector(".drop__down").classList.remove("show");
+    //   document.querySelector(".drop__down-item").classList.remove("show");
+    //   document.querySelector(".drop__down-overlay").classList.remove("show");
+    //   this.show = false;
+    //   this.toast.success("You have successfully remove the list.");
+    // });
   }
 
   showDropDown() {
@@ -116,9 +127,9 @@ export class TaskViewComponent implements OnInit {
     this.show = false;
   }
 
-  logout() {
-    this.auth.logout();
-  }
+  // logout() {
+  //   this.auth.logout();
+  // }
 
   pushNotification(){
     console.log('Registering service worker...');
