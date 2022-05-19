@@ -39,7 +39,7 @@ export class NewListComponent implements OnInit {
     //   this.toast.success("Your List has been created successfully, You can now create a task.")
     // });
     let lists = JSON.parse(localStorage.getItem('lists'));
-    if(lists !== null){
+    if(lists !== null || lists !== undefined){
       lists.push({ userId: this.isLoggedIn, _id: uuid(), title });
       console.log(lists);
       // localStorage.setItem('lists', JSON.stringify(lists));

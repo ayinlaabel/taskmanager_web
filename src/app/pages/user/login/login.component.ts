@@ -45,7 +45,12 @@ export class LoginComponent implements OnInit {
      * @desc - THE CODE BELOW IS FOR LIVE DEMO
      */
     let getUsers = JSON.parse(localStorage.getItem("users"));
-    let findUser = getUsers.find((u) => u.email === this.model.email);
+    let findUser;
+    
+    if (getUsers === undefined || getUsers === null){
+      this.toast.error('No user found!')
+      findUser = getUsers.find((u) => u.email === this.model.email);
+    }
 
     if (findUser !== undefined) {
       if (findUser.password === this.model.password) {
