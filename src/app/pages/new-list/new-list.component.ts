@@ -31,33 +31,40 @@ export class NewListComponent implements OnInit {
         this.title = "Create a new list";
       }
     });
+    // console.log(this.isLoggedIn)
+    // if(this.isLoggedIn == null){
+    //   this.router.navigate(['/login']);
+    //   this.toast.error('You need to be logged in, login and try again.')
+      
+    // }else{
+    // }
   }
 
   createList(title: string) {
-    // this.taskService.createList(title).subscribe((res) => {
-    //   this.router.navigate(["lists/" + res["_id"] + "/new-task"]);
-    //   this.toast.success("Your List has been created successfully, You can now create a task.")
-    // });
-    let lists = JSON.parse(localStorage.getItem('lists'));
-    if(lists !== null || lists !== undefined){
-      lists.push({ userId: this.isLoggedIn, _id: uuid(), title });
-      console.log(lists);
-      // localStorage.setItem('lists', JSON.stringify(lists));
-    }else{
-      let lists = [];
-      lists.push({ userId: this.isLoggedIn, _id: uuid(), title });
-      console.log(lists);
-      // localStorage.setItem('lists', JSON.stringify(lists));
-    }
+    this.taskService.createList(title).subscribe((res) => {
+      this.router.navigate(["lists/" + res["_id"] + "/new-task"]);
+      this.toast.success("Your List has been created successfully, You can now create a task.")
+    });
+    // let lists = JSON.parse(localStorage.getItem('lists'));
+    // if(lists !== null || lists !== undefined){
+    //   lists.push({ userId: this.isLoggedIn, _id: uuid(), title });
+    //   console.log(lists);
+    //   // localStorage.setItem('lists', JSON.stringify(lists));
+    // }else{
+    //   let lists = [];
+    //   lists.push({ userId: this.isLoggedIn, _id: uuid(), title });
+    //   console.log(lists);
+    //   // localStorage.setItem('lists', JSON.stringify(lists));
+    // }
   }
   
   createTask(title: string) {
-    // this.taskService.createTask(this.listId, title).subscribe((res) => {
-    //   this.router.navigate(["lists/" + this.listId]);
-    //   this.toast.success("Your Task has been created successfully.");
-    // });
+    this.taskService.createTask(this.listId, title).subscribe((res) => {
+      this.router.navigate(["lists/" + this.listId]);
+      this.toast.success("Your Task has been created successfully.");
+    });
     
-    let tasks = JSON.parse(localStorage.getItem('tasks'));
+    // let tasks = JSON.parse(localStorage.getItem('tasks'));
 
     
     
