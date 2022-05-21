@@ -4,8 +4,9 @@ import { SwPush } from "@angular/service-worker";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
 import { TaskService } from "src/app/services/task.service";
+import workerSer from "src/assets/worker.js";
 
-import { v1 as uuid } from 'uuid';
+import { v1 as uuid } from "uuid";
 
 @Component({
   selector: "app-task-view",
@@ -31,9 +32,11 @@ export class TaskViewComponent implements OnInit {
     private toast: ToastrService,
     private auth: AuthService,
     private swPush: SwPush
-  ) {}
+  ) // private worker: workerSer
+  {}
 
   ngOnInit() {
+    // this.worker.pushNotification();
 
     // let isLoggedIn = localStorage.getItem('isLoggedIn')
     // console.log(isLoggedIn);
@@ -43,7 +46,10 @@ export class TaskViewComponent implements OnInit {
     //   this.router.navigate(['/login'])
     //   this.toast.error('You are required to login')
     // }
-        
+
+    this.push;
+    this.sub;
+
     this.route.params.subscribe((params) => {
       if (params.listId) {
         this.taskService.getTask(params.listId).subscribe((tasks) => {
@@ -59,8 +65,28 @@ export class TaskViewComponent implements OnInit {
     });
   }
 
+  async push() {
+    let t = await navigator.serviceWorker.register("/assets/worker.js");
+    console.log(t);
+  }
+
+  async sub() {
+    let sw = await navigator.serviceWorker.ready;
+    let push = await sw.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey:
+        "BJ7LRDAPf5UTP5x_HfdZlYYdSh1NbpTxIwBjPSe5k_11Zz9KVfkU6-5nG_AZm0I2BRqnHnAfqckJnitw2QUtmiw",
+    });
+
+    console.log(JSON.stringify(push));
+  }
+
   newTask() {
     this.router.navigate(["lists/" + this.listId + "/new-task"]);
+  }
+
+  editList() {
+    this.router.navigate(["/lists/" + this.listId + "/edit-list"]);
   }
 
   completeTask(id: string, isComplete: any) {
@@ -131,10 +157,10 @@ export class TaskViewComponent implements OnInit {
     this.auth.logout();
   }
 
-  pushNotification(){
-    console.log('Registering service worker...');
+  pushNotification() {
+    console.log("Registering service worker...");
 
-    const register = navigator.serviceWorker.register('assets/ngsw-worker.js');
+    const register = navigator.serviceWorker.register("assets/ngsw-worker.js");
     console.log(register);
   }
 }
