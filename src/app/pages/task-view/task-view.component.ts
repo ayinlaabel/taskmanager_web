@@ -36,7 +36,7 @@ export class TaskViewComponent implements OnInit {
   {}
 
   ngOnInit() {
-    // this.worker.pushNotification();
+    this.pushNotification();
 
     // let isLoggedIn = localStorage.getItem('isLoggedIn')
     // console.log(isLoggedIn);
@@ -46,9 +46,6 @@ export class TaskViewComponent implements OnInit {
     //   this.router.navigate(['/login'])
     //   this.toast.error('You are required to login')
     // }
-
-    this.push;
-    this.sub;
 
     this.route.params.subscribe((params) => {
       if (params.listId) {
@@ -63,22 +60,6 @@ export class TaskViewComponent implements OnInit {
       this.lists = lists;
       console.log(lists);
     });
-  }
-
-  async push() {
-    let t = await navigator.serviceWorker.register("/assets/worker.js");
-    console.log(t);
-  }
-
-  async sub() {
-    let sw = await navigator.serviceWorker.ready;
-    let push = await sw.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey:
-        "BJ7LRDAPf5UTP5x_HfdZlYYdSh1NbpTxIwBjPSe5k_11Zz9KVfkU6-5nG_AZm0I2BRqnHnAfqckJnitw2QUtmiw",
-    });
-
-    console.log(JSON.stringify(push));
   }
 
   newTask() {
@@ -158,9 +139,7 @@ export class TaskViewComponent implements OnInit {
   }
 
   pushNotification() {
-    console.log("Registering service worker...");
-
-    const register = navigator.serviceWorker.register("assets/ngsw-worker.js");
-    console.log(register);
+    const subscription = JSON.parse(localStorage.getItem('subscription'));
+    console.log(subscription);
   }
 }
