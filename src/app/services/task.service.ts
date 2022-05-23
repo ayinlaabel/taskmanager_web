@@ -71,6 +71,6 @@ export class TaskService {
   }
 
   pushNotification(payload:Object){
-    return this.webRequest.patch(`notification`, { notification: payload });
+    return this.webRequest.post(`notification`,  payload);
   }
 }
