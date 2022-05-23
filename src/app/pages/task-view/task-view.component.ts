@@ -36,7 +36,12 @@ export class TaskViewComponent implements OnInit {
   {}
 
   ngOnInit() {
-    this.pushNotification();
+    let token = localStorage.getItem('x-access-token');
+
+    if(token){
+      this.pushNotification();
+      console.log("User Login");
+    }
 
     // let isLoggedIn = localStorage.getItem('isLoggedIn')
     // console.log(isLoggedIn);
