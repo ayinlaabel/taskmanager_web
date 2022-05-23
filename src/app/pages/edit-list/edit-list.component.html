@@ -23,15 +23,26 @@
         >
       </div>
     </div>
-    <div class="field" *ngIf="listId">
+    <div class="field" *ngIf="listId && !taskId">
       <p class="control is-expanded">
-        <input #inputTitle type="text" class="input" placeholder="Edit list" />
+        <input
+          #inputTitle
+          type="text"
+          class="input"
+          placeholder="Edit list"
+          value="{{ list }}"
+        />
         <span></span>
       </p>
       <div class="group-button">
-        <a class="button is-default is-small" routerLink="/"> Cancle</a>
-        <a class="button is-primary is-small"> Edit</a>
-        <!-- <a class="button is-primary is-small" (click)="editList(inputTitle.value)"> Edit</a> -->
+        <a class="button is-default is-small" routerLink=".."> Cancle</a>
+        <!-- <a class="button is-primary is-small"> Edit</a> -->
+        <a
+          class="button is-primary is-small"
+          (click)="editList(inputTitle.value)"
+        >
+          Edit</a
+        >
       </div>
     </div>
   </div>

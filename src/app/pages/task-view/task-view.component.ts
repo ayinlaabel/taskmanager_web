@@ -140,6 +140,8 @@ export class TaskViewComponent implements OnInit {
 
   pushNotification() {
     const subscription = JSON.parse(localStorage.getItem('subscription'));
-    console.log(subscription);
+    this.taskService.pushNotification(subscription).subscribe(
+      (res)=> console.log(res)
+    )
   }
 }

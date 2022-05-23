@@ -13,6 +13,7 @@ export class EditListComponent implements OnInit {
   listId: string;
   taskId: string;
   task: string;
+  list: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,18 +34,32 @@ export class EditListComponent implements OnInit {
             this.task = task["title"];
           });
       } else {
+        this.listId = params.listId;
+        this.taskService.getListById(params.listId).subscribe((list) => {
+          this.list = list["title"];
+        });
         this.title = "Edit list";
       }
     });
+
+    console.log(this.listId);
+    console.log(this.taskId);
   }
 
-  editTask(title: string){
-    this.taskService.editTask(this.listId, this.taskId, title).subscribe(
-      task => {
-        console.log(task)
-        this.router.navigate(['/lists/'+this.listId])
+  editTask(title: string) {
+    this.taskService
+      .editTask(this.listId, this.taskId, title)
+      .subscribe((task) => {
+        console.log(task);
+        this.router.navigate(["/lists/" + this.listId]);
         this.toast.info("Your chnages has been made.");
-      }
-    )
+      });
+  }
+
+  editList(title: string) {
+    this.taskService.editList(this.listId, title).subscribe((list) => {
+      this.router.navigate(["/lists/" + this.listId]);
+      this.toast.info("Your chnages has been made.");
+    });
   }
 }

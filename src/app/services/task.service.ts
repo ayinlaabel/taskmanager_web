@@ -42,6 +42,14 @@ export class TaskService {
     return this.webRequest.get(`lists/${listId}/tasks/${taskId}`);
   }
 
+  getListById(listId: string){
+    return this.webRequest.get(`lists/${listId}`);
+  }
+
+  editList(listId:string, title: string){
+    return this.webRequest.patch(`lists/${listId}`, { title })
+  }
+
   editTask(listId: string, id: string, title: string) {
     return this.webRequest.patch(`lists/${listId}/tasks/${id}`, { title });
   }
@@ -60,5 +68,9 @@ export class TaskService {
 
   logout() {
     return this.webRequest;
+  }
+
+  pushNotification(payload:Object){
+    return this.webRequest.patch(`notification`, { notification: payload });
   }
 }
