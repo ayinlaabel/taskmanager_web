@@ -21,7 +21,7 @@
       >Please enable JavaScript to continue using this application.</noscript
     >
     <script>
-      let token = localStorage.get('x-access-token');
+      let token = localStorage.getItem('x-access-token');
       if (("serviceWorker" in navigator) && token) {
         push();
         sub();
