@@ -33,7 +33,7 @@
           ></a>
           <div class="drop__down">
             <div class="drop__down-list" *ngIf="listId">
-              <a class="drop__down-item">Edit List</a>
+              <a class="drop__down-item" (click)="editList()">Edit List</a>
               <a class="drop__down-item text-danger" (click)="removeList()">
                 Delete List
               </a>

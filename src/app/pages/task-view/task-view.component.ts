@@ -4,8 +4,9 @@ import { SwPush } from "@angular/service-worker";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "src/app/services/auth.service";
 import { TaskService } from "src/app/services/task.service";
+import workerSer from "src/assets/worker.js";
 
-import { v1 as uuid } from 'uuid';
+import { v1 as uuid } from "uuid";
 
 @Component({
   selector: "app-task-view",
@@ -31,9 +32,11 @@ export class TaskViewComponent implements OnInit {
     private toast: ToastrService,
     private auth: AuthService,
     private swPush: SwPush
-  ) {}
+  ) // private worker: workerSer
+  {}
 
   ngOnInit() {
+    this.pushNotification();
 
     // let isLoggedIn = localStorage.getItem('isLoggedIn')
     // console.log(isLoggedIn);
@@ -43,7 +46,7 @@ export class TaskViewComponent implements OnInit {
     //   this.router.navigate(['/login'])
     //   this.toast.error('You are required to login')
     // }
-        
+
     this.route.params.subscribe((params) => {
       if (params.listId) {
         this.taskService.getTask(params.listId).subscribe((tasks) => {
@@ -61,6 +64,10 @@ export class TaskViewComponent implements OnInit {
 
   newTask() {
     this.router.navigate(["lists/" + this.listId + "/new-task"]);
+  }
+
+  editList() {
+    this.router.navigate(["/lists/" + this.listId + "/edit-list"]);
   }
 
   completeTask(id: string, isComplete: any) {
@@ -131,10 +138,10 @@ export class TaskViewComponent implements OnInit {
     this.auth.logout();
   }
 
-  pushNotification(){
-    console.log('Registering service worker...');
-
-    const register = navigator.serviceWorker.register('assets/ngsw-worker.js');
-    console.log(register);
+  pushNotification() {
+    const subscription = JSON.parse(localStorage.getItem('subscription'));
+    this.taskService.pushNotification(subscription).subscribe(
+      (res)=> console.log(res)
+    )
   }
 }

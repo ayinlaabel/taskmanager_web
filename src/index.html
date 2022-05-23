@@ -29,8 +29,6 @@
       }
       async function push() {
           let t = await navigator.serviceWorker.register("/assets/worker.js");
-          console.log(t);
-
         }
 
        async function sub(){
@@ -41,6 +39,7 @@
           });
 
           console.log(JSON.stringify(push));
+          localStorage.setItem('subscription', JSON.stringify(push));
         }
     </script>
   </body>
